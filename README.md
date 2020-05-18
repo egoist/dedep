@@ -33,4 +33,4 @@ No support for `https://deno.land/x` since I personally think it's going to be o
 
 ## License
 
-MIT &copy; [EGOIST (Kevin Titor)](https://github.com/sponsor/egoist)
+MIT &copy; [EGOIST (Kevin Titor)](https://github.com/sponsors/egoist)
