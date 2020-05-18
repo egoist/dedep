@@ -20,7 +20,7 @@ export * as colors from 'https://deno.land/std/fmt/colors.ts'
 export { cac } from 'https://unpkg.com/cac@6.5.8/mod.js'
 ```
 
-Run `dedep` to retrieve latest version of each imported modules.
+Run `dedep` to retrieve latest version of each imported module.
 
 Supports:
 
