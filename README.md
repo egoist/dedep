@@ -2,7 +2,7 @@
 
 Manage dependency versions for Deno.
 
-![preview](https://user-images.githubusercontent.com/8784712/82176867-8a770500-990a-11ea-85a2-274aca559440.png)
+![preview](https://user-images.githubusercontent.com/8784712/82181325-e3e43180-9914-11ea-9274-772696935c61.png)
 
 ## Install
 
