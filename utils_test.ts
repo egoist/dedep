@@ -1,5 +1,5 @@
 import { getPkgLatestVersion, getLatestGitTag, getDeps } from './utils.ts'
-import { assertEquals } from './deps.ts'
+import { assertEquals } from './dev_deps.ts'
 
 Deno.test('latest npm version', async () => {
   const version = await getPkgLatestVersion('cac')
