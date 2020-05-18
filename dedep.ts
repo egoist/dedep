@@ -42,7 +42,8 @@ const deps = getDeps(text)
 console.log(`\n  Fetching latest version..\n`)
 
 await Promise.all(
-  deps.map(async (dep) => {
+  deps.filter(dep => dep.type !== 'unknown')
+    .map(async (dep) => {
     const latestVersion =
       dep.type === 'npm'
         ? await getPkgLatestVersion(dep.name)
@@ -61,3 +62,11 @@ await Promise.all(
     console.log()
   })
 )
+
+const unknownDeps = deps.filter(dep => dep.type === 'unknown')
+if (unknownDeps.length) {
+  console.log(`  ${colors.bold(colors.yellow('Unsupported URLs:'))}`)
+  unknownDeps.map(dep => {
+    console.log(`  ${colors.dim(colors.underline(dep.url))}`)
+  })
+}

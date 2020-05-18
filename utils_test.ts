@@ -20,6 +20,7 @@ Deno.test('get deps', () => {
   export * from 'https://deno.land/std/http'
   export * from 'https://deno.land/std@v0.1.1/http'
   export * from 'https://deno.land/std@v0.1.1/http/server.ts'
+  export * as abc from 'https://deno.land/x/abc/mod.ts'
   `)
   assertEquals(deps, [
     {
@@ -71,5 +72,12 @@ Deno.test('get deps', () => {
       version: 'v0.1.1',
       emptyVersion: false,
     },
+    {
+      type: 'unknown',
+      url: 'https://deno.land/x/abc/mod.ts',
+      name: '',
+      version: '',
+      emptyVersion: true,
+    }
   ])
 })
