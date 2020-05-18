@@ -1,6 +1,6 @@
 # Dedep
 
-Check dependency versions for Deno.
+Manage dependency versions for Deno.
 
 ![preview](https://user-images.githubusercontent.com/8784712/82176867-8a770500-990a-11ea-85a2-274aca559440.png)
 
