@@ -1,6 +1,6 @@
 export function getDeps(text: string) {
   const deps: Array<{
-    type: 'npm' | 'github' | 'std'
+    type: 'npm' | 'github' | 'std' | 'unknown'
     url: string
     name: string
     version: string
@@ -34,6 +34,8 @@ export function getDeps(text: string) {
             version: version || 'latest',
             emptyVersion: !version,
           })
+        } else {
+          handlerUnkown(p1)
         }
       } else if (hostname === 'deno.land') {
         if ((m = /^\/std(?:@([^\/]+))?/.exec(pathname))) {
@@ -44,6 +46,8 @@ export function getDeps(text: string) {
             version: m[1] || 'master',
             emptyVersion: !m[1],
           })
+        } else {
+          handlerUnkown(p1)
         }
       } else if (hostname === 'denopkg.com') {
         if ((m = /\/([^\/]+)\/([^\/]+)/.exec(pathname))) {
@@ -56,13 +60,26 @@ export function getDeps(text: string) {
             emptyVersion: !version,
           })
         }
+      } else {
+        handlerUnkown(p1)
       }
     }
     return ''
   })
 
+  function handlerUnkown(url: string) {
+    deps.push({
+      type: 'unknown',
+      url,
+      name: '',
+      version: '',
+      emptyVersion: true
+    })
+  }
+
   return deps
 }
+
 
 export async function getPkgLatestVersion(name: string) {
   const json = await fetch(`https://registry.npmjs.org/${name}`).then((res) =>
