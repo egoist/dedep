@@ -63,10 +63,10 @@ await Promise.all(
   })
 )
 
-const unknownDeps = deps.filter(dep => dep.type === 'unknown')
-if (unknownDeps.length) {
-  console.log(`  ${colors.bold(colors.yellow('Unsupported URLs:'))}`)
-  unknownDeps.map(dep => {
+for (const dep of deps) {
+  if (dep.type === 'unknown') {
     console.log(`  ${colors.dim(colors.underline(dep.url))}`)
-  })
+    console.log(`  ${colors.yellow('unknown this dep')}`)
+    console.log()
+  }
 }
