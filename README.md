@@ -22,6 +22,8 @@ export { cac } from 'https://unpkg.com/cac@6.5.8/mod.js'
 
 Run `dedep` to retrieve latest version of each imported module.
 
+Run `dedep help` to get all command-line usage.
+
 Supports:
 
 - https://deno.land/std
