@@ -12,7 +12,7 @@ deno install -A https://denopkg.com/egoist/dedep/dedep.ts
 
 ## Usage
 
-Orginaize all external imports in `deps.ts`:
+Organize all external imports in `deps.ts`:
 
 ```ts
 export * as colors from 'https://deno.land/std/fmt/colors.ts'
