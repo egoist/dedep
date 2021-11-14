@@ -7,7 +7,7 @@ Manage dependency versions for Deno.
 ## Install
 
 ```bash
-deno install -A https://denopkg.com/egoist/dedep/dedep.ts
+deno install -A https://denopkg.com/egoist/dedep@latest/dedep.ts
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ export { cac } from 'https://unpkg.com/cac@6.5.8/mod.js'
 
 Run `dedep` to retrieve latest version of each imported module.
 
-Run `dedep help` to get all command-line usage.
+You can also check another file with `dedep [file]`, run `dedep help` to get all command-line usage.
 
 Supports:
 
@@ -30,8 +30,6 @@ Supports:
 - https://denopkg.com
 - https://unpkg.com
 - https://pika.dev
-
-No support for `https://deno.land/x` since I personally think it's going to be obsolete eventually. 
 
 ## License
 

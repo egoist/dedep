@@ -1,6 +1,6 @@
 export function getDeps(text: string) {
   const deps: Array<{
-    type: 'npm' | 'github' | 'std' | 'unknown'
+    type: "npm" | "github" | "std" | "unknown"
     url: string
     name: string
     version: string
@@ -12,51 +12,51 @@ export function getDeps(text: string) {
 
   text.replace(/\s+from\s+['"`](.+)['"`]/g, (_, p1) => {
     if (/^https:\/\//.test(p1)) {
-      const { hostname, pathname } = new URL('', p1)
+      const { hostname, pathname } = new URL("", p1)
       let m: RegExpExecArray | null = null
 
-      if (hostname === 'unpkg.com' || hostname === 'cdn.pika.dev') {
+      if (hostname === "unpkg.com" || hostname === "cdn.pika.dev") {
         if ((m = SCOPED_PKG_RE.exec(pathname))) {
-          const version = m[2].split('@')[1]
+          const version = m[2].split("@")[1]
           deps.push({
             url: p1,
-            type: 'npm',
-            name: m[1] + '/' + m[2].split('@')[0],
-            version: version || 'latest',
+            type: "npm",
+            name: m[1] + "/" + m[2].split("@")[0],
+            version: version || "latest",
             emptyVersion: !version,
           })
         } else if ((m = PKG_RE.exec(pathname))) {
-          const version = m[1].split('@')[1]
+          const version = m[1].split("@")[1]
           deps.push({
-            type: 'npm',
+            type: "npm",
             url: p1,
-            name: m[1].split('@')[0],
-            version: version || 'latest',
+            name: m[1].split("@")[0],
+            version: version || "latest",
             emptyVersion: !version,
           })
         } else {
           handlerUnkown(p1)
         }
-      } else if (hostname === 'deno.land') {
+      } else if (hostname === "deno.land") {
         if ((m = /^\/std(?:@([^\/]+))?/.exec(pathname))) {
           deps.push({
-            type: 'std',
+            type: "std",
             url: p1,
-            name: 'denoland/deno',
-            version: m[1] || 'master',
+            name: "denoland/deno",
+            version: m[1] || "master",
             emptyVersion: !m[1],
           })
         } else {
           handlerUnkown(p1)
         }
-      } else if (hostname === 'denopkg.com') {
+      } else if (hostname === "denopkg.com") {
         if ((m = /\/([^\/]+)\/([^\/]+)/.exec(pathname))) {
-          const version = m[2].split('@')[1]
+          const version = m[2].split("@")[1]
           deps.push({
-            type: 'github',
+            type: "github",
             url: p1,
-            name: `${m[1]}/${m[2].split('@')[0]}`,
-            version: version || 'master',
+            name: `${m[1]}/${m[2].split("@")[0]}`,
+            version: version || "master",
             emptyVersion: !version,
           })
         }
@@ -64,35 +64,34 @@ export function getDeps(text: string) {
         handlerUnkown(p1)
       }
     }
-    return ''
+    return ""
   })
 
   function handlerUnkown(url: string) {
     deps.push({
-      type: 'unknown',
+      type: "unknown",
       url,
-      name: '',
-      version: '',
-      emptyVersion: true
+      name: "",
+      version: "",
+      emptyVersion: true,
     })
   }
 
   return deps
 }
 
-
 export async function getPkgLatestVersion(name: string) {
   const json = await fetch(`https://registry.npmjs.org/${name}`).then((res) =>
     res.json()
   )
 
-  return json['dist-tags']['latest']
+  return json["dist-tags"]["latest"]
 }
 
 // https://github.com/substack/semver-compare/blob/master/index.js
 export function semverCompare(a: string, b: string) {
-  const pa = a.split('.')
-  const pb = b.split('.')
+  const pa = a.split(".")
+  const pb = b.split(".")
   for (let i = 0; i < 3; i++) {
     const na = Number(pa[i])
     const nb = Number(pb[i])
@@ -113,15 +112,15 @@ export async function getLatestGitTag(repo: string) {
     `https://api.github.com/repos/${repo}/git/refs/tags`
   ).then((res) => res.json())
   const tags = json
-    .map((v: any) => v.ref.replace(/^refs\/tags\/v?/, ''))
+    .map((v: any) => v.ref.replace(/^refs\/tags\/v?/, ""))
     .filter((v: string) => isSemver(v))
   return tags.sort((a: string, b: string) => -semverCompare(a, b))[0]
 }
 
 export async function getLatestStdVersion() {
-  const json = await fetch(
-    `https://denopkg.com/denoland/deno_website2@master/deno_std_versions.json`
-  ).then((res) => res.json())
+  const text = await fetch(
+    `https://denopkg.com/denoland/deno_std@main/version.ts`
+  ).then((res) => res.text())
 
-  return json.sort((a: string, b: string) => -semverCompare(a, b))[0]
+  return text.match(/const VERSION = "(.+)"/)![1]
 }
